@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var bodyParser = require("body-parser");
 
 var routes = require('./api/routes');
 
@@ -15,7 +16,8 @@ app.use(function(req, res, next) {
 
 // Set static directory before defining routes
 app.use(express.static(path.join(__dirname, 'public')));
-
+// set false will not support other data type
+app.use(bodyParser.urlencoded({extended: false}));
 // Add some routing
 app.use('/api', routes);
 

@@ -13,7 +13,9 @@ router
   .get(ctrlHotels.hotelsGetOne);
 
 // create
-
+router
+  .route('/hotels/new')
+  .post(ctrlHotels.hotelsAddOne)
 // edit
 
 //delete

@@ -2,6 +2,7 @@
   "restartable": "rs",
   "ignore": [
       ".git",
+      "public/*",
       "node_modules/**/node_modules"
   ],
   "verbose": true,
@@ -13,7 +14,8 @@
       "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "watch": [
-      "api"
+      "api/*",
+      "app.js"
   ],
   "env": {
       "NODE_ENV": "development",
