@@ -1,53 +1,95 @@
-var hotelJsonData = require('../data/hotel-data.json');
-var mongoose = require("mongoose");
+// var hotelModel = require('../data/hotels.model')
+var mongoose = require('mongoose');
+var hotelModel = mongoose.model('HotelData');
 
-var Schema = mongoose.Schema;
-// var ObjectId = Schema.ObjectId;
-// for only read you don't need the schema definition
-//but if you want to insert you must input all field
-//OR YOU WILL NOT BE ABLE TO CREATE DATA
-var hotelSchema = new Schema({
-  name: String
-  //... much more but only for test
-})
-var hotel = mongoose.model("hoteldbData",hotelSchema,'hotelData');
+function getGeoQuery (req,res){
+  console.log(req.query.lng)
+  //TODO: validation for lng lat
+  // if not send 400 bad request
+  var lng = parseFloat(req.query.lng);
+  var lat = parseFloat(req.query.lat);
+  var point ={
+    type: 'Point',
+    coordinates: [lng, lat]
+  }
+
+  var geoOptions ={
+    maxDistance: 2000,
+    spherical: true,
+    num: 5
+  }
+  hotelModel
+  .geoNear(point,geoOptions, function(err, result, status){
+    if(err){
+      console.log(err);
+      res.status(500).send(err);  
+    } else{
+      res.status(200).send(result);  
+    }
+  });
+}
+
 module.exports.hotelsGetAll = function(req, res) {
-  console.log(req.query);
-  var count = req.query.count || 10;
-  var offset = req.query.offset || 0;
-  var end = offset + count;
-  var result = hotelJsonData.slice(offset,end);
 
-  hotel.findById("583918740235137c4476b97f",function(err,data){console.log("test"+data)});
-  // hotel.create({name:"test"}, function(err,data){
-  //   if(err){
-  //     console.log("wrong"+err);
-  //   }else{
-  //     console.log(data);
-  //   }
-  // });
-  res
-    .status(200)
-    .json(result);
+  if(req.query.lng && req.query.lat){
+    getGeoQuery(req,res);
+    return
+  }
+  //TODO: validation offset over data length or some other
+  var count = parseInt(req.query.count) || 10;
+  var offset = parseInt(req.query.offset) || 0;
+  var end = offset + count;
+  hotelModel
+  .find()
+  .skip(offset)
+  .limit(count)
+  .exec(function(err,hotels){
+    if(err){
+      console.log("get all error: " + error);
+      res.status(500).send();
+    } else {
+      res
+        .status(200)
+        .json(hotels);
+        }
+  });
+  
 };
 
 module.exports.hotelsGetOne = function(req, res) {
-  
-  var hotelId = req.params.id;
 
-  var oneHotel = hotelJsonData[hotelId]
-  res
-    .status(200)
-    .json(oneHotel);
+  var hotelId = req.params.id;
+  hotelModel.findById(hotelId, function(err,hotel){
+    if(err){
+      console.log(err);
+      res.status(500).json({error: err.message});
+    } else {
+      res
+        .status(200)
+        .json(hotel);
+    }
+  });
+  
 };
 
 module.exports.hotelsAddOne = function(req, res) {
-  console.log("this is post route");
-  var hotelId = req.params.id;
-  console.log(req.body);
+  if(!req.body.name || !req.body.address || !req.body.star){
+    res.status(400).send("invalid data");
+    return;
+  }
+  
+  hotelModel.create(req.body,function(err,hotel){
+    if(err){
+      console.log(err);
+    } else {
+      console.log("create hotel record: " + hotel);
+    }
+  })
 
-  var oneHotel = hotelJsonData[hotelId]
+  var newHotel = req.body;
+  newHotel.star = parseInt(req.body.star);
+  console.log(newHotel);
   res
-    .status(200)
-    .json(req.body);
+    .status(201)
+    .json({});  
 };

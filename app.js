@@ -1,15 +1,13 @@
+require('./api/data/db');
 var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
 var routes = require('./api/routes');
-var mongoose = require('mongoose');
 // Define the port to run on
 app.set('port', 3000);
-var env =process.env.NODE_ENV || 'development'
-var mongodb_url = env === 'development' ? "mongodb://localhost/meantest" : process.env.databaseUrl
-mongoose.connect(mongodb_url)
-// Add middleware to console log every request
+var env = process.env.NODE_ENV || 'development'
+
 app.use(function(req, res, next) {
   console.log(req.method, req.url);
   next(); 
