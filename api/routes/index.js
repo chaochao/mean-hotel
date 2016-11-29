@@ -11,24 +11,23 @@ router
 //get one hotel data
 router
   .route('/hotels/:id')
-  .get(ctrlHotels.hotelsGetOne);
+  .get(ctrlHotels.hotelsGetOne)
+  .put(ctrlHotels.hotelsUpdateOne);
 
 // create
 router
   .route('/hotels/new')
   .post(ctrlHotels.hotelsAddOne)
-// edit
 
-
+// =============
+// reviews
 router
   .route('/hotels/:id/reviews')
-  .get(ctrlReviews.reviewsGetAll);
+  .get(ctrlReviews.reviewsGetAll)
+  .post(ctrlReviews.reviewsAddOne);
 
 router
   .route('/hotels/:id/reviews/:reviewId')
   .get(ctrlReviews.reviewsGetOne);
 
-
-
-//delete
 module.exports = router;
