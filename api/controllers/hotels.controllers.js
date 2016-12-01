@@ -73,25 +73,26 @@ module.exports.hotelsGetOne = function(req, res) {
 };
 
 module.exports.hotelsAddOne = function(req, res) {
-  if(!req.body.name || !req.body.address || !req.body.star){
+  //TODO: more items
+  if(!req.body.name || !req.body.address || !req.body.stars){
     res.status(400).send("invalid data");
     return;
   }
-  
-  hotelModel.create(req.body,function(err,hotel){
+  var newHotel = req.body;
+  newHotel.stars = parseInt(req.body.stars);
+
+  hotelModel.create(newHotel,function(err,hotel){
     if(err){
       console.log(err);
     } else {
-      console.log("create hotel record: " + hotel);
+      res
+        .status(201)
+        .json(hotel);  
     }
   })
 
-  var newHotel = req.body;
-  newHotel.star = parseInt(req.body.star);
-  console.log(newHotel);
-  res
-    .status(201)
-    .json({});  
+  
+  
 };
 
 module.exports.hotelsUpdateOne = function(req, res){
@@ -104,7 +105,6 @@ module.exports.hotelsUpdateOne = function(req, res){
     currency: req.body.currency
   }
   hotelModel.findByIdAndUpdate(hotelId,hotel, function(err,newHotel){
-    // res.send("put!!")
     if(err){
       res.status(500).json(err);
     }else {
@@ -112,3 +112,16 @@ module.exports.hotelsUpdateOne = function(req, res){
     }
   });
 }
+
+module.exports.hotelsDeleteOne = function(req, res){
+  var hotelId = req.params.id;
+  hotelModel.findByIdAndRemove(hotelId,function(err,hotel){
+    if(err){
+      res.status(500).json(err);
+    } else{
+      res.status(204).json();
+    }
+  });
+
+}
+

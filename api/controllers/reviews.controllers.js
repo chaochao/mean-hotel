@@ -79,10 +79,18 @@ module.exports.reviewsUpdateOne = function(req, res){
       // but not in this project
       //reivew.save() doesn't work
       // look for findByIdAndUpdate()
-      hotel.save(); 
-      res
-        .status(200)
-        .json(review);
+      hotel.save(function(err, hotel){
+        if(err){
+          res
+            .status(500)
+            .json(err)
+        } else {
+          res
+            .status(204)
+            .json();    
+        }
+      }); 
+      
     }
   });
 }
@@ -103,4 +111,40 @@ module.exports.reviewsAddOne = function(req, res) {
     }
   });
 }
+
+module.exports.reviewsDeleteOne = function(req, res) {
+  var hotelId = req.params.id;
+  var reviewId = req.params.reviewId;
+  hotelModel.findById(hotelId)
+  .select('reviews')
+  .exec(function(err, hotel) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        error: err.message
+      });
+    } else {
+      var review = hotel.reviews.id(reviewId);
+      if(!review){
+        res.status(404).json({message: "no such review"});
+        return;
+      } else{
+        review.remove();
+        hotel.save(function(err, hotel){
+        if(err){
+          res
+            .status(500)
+            .json(err)
+        } else {
+          res
+            .status(204)
+            .json();    
+        }
+      }); 
+      }
+    }
+  });
+}
+
+
 
