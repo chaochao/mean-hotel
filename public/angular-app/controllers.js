@@ -11,11 +11,16 @@
 // }
 
 
-meanHotel.controller('HotelsController', ['hotelsData',function (hotelsData) {
+meanHotel.controller('HotelsController', ['hotelDataFactory','hotelsData',function (hotelDataFactory, hotelsData) {
   // need to sign this to a var otherwise can not get data.
   // not sure why
   var self = this;
   self.title = 'MEAN Hotel App';
+  // 1.
+  // hotelDataFactory.hotelList().then(function(res){
+  //   self.hotels = res.data;
+  // });
+  // 2.
   hotelsData.getAll().then(function(response) {
     // console.log(response);
     self.hotels = response.data;
