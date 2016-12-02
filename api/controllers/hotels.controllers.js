@@ -98,13 +98,12 @@ module.exports.hotelsAddOne = function(req, res) {
 module.exports.hotelsUpdateOne = function(req, res){
   var hotelId = req.params.id;
   //TODO: More validation
-  var hotel ={
-    name: req.body.name,
-    description: req.body.description,
-    stars: parseInt(req.body.stars),
-    currency: req.body.currency
+  
+  if(req.body.stars){
+    req.body.stars = parseInt(req.body.stars)
   }
-  hotelModel.findByIdAndUpdate(hotelId,hotel, function(err,newHotel){
+  console.log(req.body);
+  hotelModel.findByIdAndUpdate(hotelId,req.body, function(err,newHotel){
     if(err){
       res.status(500).json(err);
     }else {

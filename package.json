@@ -21,6 +21,8 @@
   },
   "homepage": "",
   "dependencies": {
+    "angular": "^1.5.9",
+    "angular-route": "^1.5.9",
     "body-parser": "^1.15.2",
     "express": "^4.13.3",
     "mongodb": "^2.2.11",

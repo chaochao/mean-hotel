@@ -15,6 +15,8 @@ app.use(function(req, res, next) {
 
 // Set static directory before defining routes
 app.use(express.static(path.join(__dirname, 'public')));
+//Set node_module path
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 // set false will not support other data type
 app.use(bodyParser.urlencoded({extended: false}));
 // Add some routing
