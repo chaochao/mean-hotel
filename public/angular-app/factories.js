@@ -20,7 +20,8 @@ function hotelDataFactory($http) {
   }
 
   function complete(response) {
-    return response;
+    // filter data
+    return response.data;
   }
 
   function failed(error) {

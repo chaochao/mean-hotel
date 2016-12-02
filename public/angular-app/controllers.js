@@ -17,14 +17,14 @@ meanHotel.controller('HotelsController', ['hotelDataFactory','hotelsData',functi
   var self = this;
   self.title = 'MEAN Hotel App';
   // 1.
-  // hotelDataFactory.hotelList().then(function(res){
-  //   self.hotels = res.data;
-  // });
-  // 2.
-  hotelsData.getAll().then(function(response) {
-    // console.log(response);
-    self.hotels = response.data;
+  hotelDataFactory.hotelList().then(function(res){
+    self.hotels = res;
   });
+  // 2.
+  // hotelsData.getAll().then(function(response) {
+  //   // console.log(response);
+  //   self.hotels = response.data;
+  // });
 }]);
 
 meanHotel.controller('ShowHotelController', ['hotelsData','$routeParams', function(hotelsData, $routeParams){
