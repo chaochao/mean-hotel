@@ -11,13 +11,14 @@
 // }
 
 
-meanHotel.controller('HotelsController', ['hotelDataFactory','hotelsData',function (hotelDataFactory, hotelsData) {
+meanHotel.controller('HotelsController', ['$route','hotelDataFactory','hotelsData',function ($route, hotelDataFactory, hotelsData) {
   // need to sign this to a var otherwise can not get data.
   // not sure why
-  var self = this;
+  var self = this; 
   self.title = 'MEAN Hotel App';
   // 1.
   hotelDataFactory.hotelList().then(function(res){
+    // can't use 'this' here, it reference to others
     self.hotels = res;
   });
   // 2.
@@ -25,14 +26,35 @@ meanHotel.controller('HotelsController', ['hotelDataFactory','hotelsData',functi
   //   // console.log(response);
   //   self.hotels = response.data;
   // });
+  self.addNewHotel = function(){    
+    var newHotel ={
+      name: self.newHotelName,
+      stars: parseInt(self.newHotelrating),
+      address: self.newHoteladdress
+    }
+    console.log(newHotel);
+
+    hotelDataFactory.postHotel(newHotel).then(function(res){
+      console.log(res);
+      if(res.status === 201){
+        // do a redirection
+        $route.reload();
+
+      }
+    });
+  }
+  
+
 }]);
 
-meanHotel.controller('ShowHotelController', ['hotelsData','$routeParams', function(hotelsData, $routeParams){
+meanHotel.controller('DisplayHotelController', ['hotelsData','$routeParams', function(hotelsData, $routeParams){
   var self = this
   var hotelId = $routeParams.hotelId; 
-  self.title = hotelId;
 
   hotelsData.getOne(hotelId).then(function(response){
     self.hotel = response.data
+    self.hotel.test = new Array(self.hotel.stars);
   });
+
+
 }])

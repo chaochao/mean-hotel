@@ -8,7 +8,6 @@ function config($routeProvider){
   })
   .when('/hotel/:hotelId', {
     templateUrl:'angular-app/pages/hotelDetals.html',
-    controller: 'ShowHotelController',
-    controllerAs: 'sht'
+    controller: 'DisplayHotelController as dht',
   })
 }
