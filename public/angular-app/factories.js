@@ -4,7 +4,6 @@ function hotelDataFactory($http) {
   return {
     hotelList: hotelList,
     hotelDisplay: hotelDisplay,
-    postReview: postReview,
     postHotel: postHotel
   };
 
@@ -47,5 +46,16 @@ function hotelDataFactory($http) {
   function failed(error) {
     console.log(error.statusText);
   }
-
 }
+
+
+meanHotel.factory('AuthFactory', function(){
+  return {
+    auth: {
+      isLoggedIn: false
+    }
+  };
+});
+
+//there is the intercepter for set up http request 
+

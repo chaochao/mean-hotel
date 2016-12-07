@@ -15,7 +15,8 @@
   },
   "watch": [
       "api/*",
-      "app.js"
+      "app.js",
+      "public/*"
   ],
   "env": {
       "NODE_ENV": "development",

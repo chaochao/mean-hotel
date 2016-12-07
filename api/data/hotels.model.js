@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var reviewSchema = mongoose.Schema({
+var reviewSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -21,7 +21,7 @@ var reviewSchema = mongoose.Schema({
   }
 });
 
-var roomSchema = mongoose.Schema({
+var roomSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true
@@ -35,7 +35,7 @@ var roomSchema = mongoose.Schema({
   price: Number
 });
 
-var hotelSchema = mongoose.Schema({
+var hotelSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -62,5 +62,20 @@ var hotelSchema = mongoose.Schema({
   }
 });
 
+var userSchema = new mongoose.Schema({
+  username:{
+    type: String,
+    required: true,
+    unique: true
+  },
+  nickname: String,
+  password: {
+    type: String,
+    required: true
+  }
+});
+
+
 mongoose.model('HotelData', hotelSchema, 'hotelData');
 mongoose.model('Review', reviewSchema);
+mongoose.model('User', userSchema);
