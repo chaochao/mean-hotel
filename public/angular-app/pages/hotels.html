@@ -3,7 +3,7 @@
   <li ng-repeat="hotel in ht.hotels"><a ng-href="#/hotel/{{ hotel._id }}">{{ hotel.name }}</a></li>
 </ul>
 
-<form name="ht.newHotelForm" ng-submit="ht.addNewHotel()">
+<form ng-show="ht.isLoggedIn()" name="ht.newHotelForm" ng-submit="ht.addNewHotel()">
   <input type="text" name="name" ng-model ="ht.newHotelName"/>
   <input type="text" name="rating" ng-model ="ht.newHotelrating"/>
   <input type="text" name="address" ng-model ="ht.newHoteladdress"/>

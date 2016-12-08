@@ -18,8 +18,7 @@ module.exports.login = function(req, res){
     if(err){
       res.status(400).json(err);
     }else {
-      
-      if(bcrypt.compareSync(req.body.password, user.password)){
+      if(user && bcrypt.compareSync(req.body.password, user.password)){
         //create token and send it to fromt
         token = jwt.sign({username: user.username}, 'this is secret', { expiresIn: 3600 *24});
         res.status(200).json({success: true, token: token});
@@ -54,7 +53,7 @@ module.exports.register = function(req, res){
       res.status(400).json(err);
     } else {
       console.log("create new user");
-      res.status(200).json(user);
+      res.status(201).json({success: true, user: user});
     }
   });
 }

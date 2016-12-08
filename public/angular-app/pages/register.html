@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>{{vm.name}}</h1>
+  <div ng-if="vm.message" class="alert alert-success" role="alert">
+    <p>{{ vm.message }}</p>
+  </div>
+  <div ng-if="vm.error" class="alert alert-danger" role="alert">
+    {{ vm.error }}
+  </div>
+  <form ng-hide="vm.message" role="register" ng-submit="vm.register()">
+    <div class="form-group">
+      <input type="text" class="form-control" ng-model="vm.username" placeholder="username">
+      <input type="text" class="form-control" ng-model="vm.password" placeholder="password">
+    </div>
+    <button type="submit" class="btn btn-default">Sign Up</button>
+  </form>
+</div>

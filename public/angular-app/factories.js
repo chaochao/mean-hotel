@@ -24,18 +24,7 @@ function hotelDataFactory($http) {
       method: 'POST',
       url: '/api/hotels/new',
       data: newHotel,
-      headers:{
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      transformRequest: function(obj) {
-        var str = [];
-        for (var p in obj) {
-          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        }
-        return str.join("&");
-      }  
-    })
-
+    }).then(complete).catch(failed);
   }
 
   function complete(response) {
@@ -51,9 +40,8 @@ function hotelDataFactory($http) {
 
 meanHotel.factory('AuthFactory', function(){
   return {
-    auth: {
-      isLoggedIn: false
-    }
+    username: '',
+    isLoggedIn: false
   };
 });
 

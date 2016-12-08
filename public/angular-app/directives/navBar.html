@@ -14,16 +14,24 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class=""><a href="#/">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#/">Link</a></li>
+        <li class=""><a href="#/hotels">Hotels <span class="sr-only">(current)</span></a></li>
+        <li><a href="#/register">Register</a></li>
+        <li><a href="#/secret">Secret</a></li>
       </ul>
-      <form class="navbar-form navbar-right" role="login" ng-submit="vm.login()">
-        <div class="form-group">
-          <input type="text" class="form-control" ng-model="vm.username" name="username" placeholder="username">
-          <input type="text" class="form-control" ng-model="vm.password" name="password" placeholder="password">
-        </div>
-        <button type="submit" class="btn btn-default">login</button>
-      </form>
+      <div id='log' class="navbar-form navbar-right">
+        <ul ng-if="vm.isLoggedIn()" class="nav navbar-nav navbar-right">
+          <li><p class="navbar-text">Welcome back {{ vm.loggedInUser }}</p></li>
+          <li><button class="btn btn-default" ng-click="vm.logout()">Logout</button></li>
+        </ul>
+        <form  ng-if="!vm.isLoggedIn()" role="login" ng-submit="vm.login()">
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="vm.username" name="username" placeholder="username">
+            <input type="text" class="form-control" ng-model="vm.password" name="password" placeholder="password">
+          </div>
+          <button type="submit" class="btn btn-default">login</button>
+        </form>
+      </div>
+      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
