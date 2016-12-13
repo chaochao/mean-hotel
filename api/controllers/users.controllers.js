@@ -40,7 +40,7 @@ module.exports.register = function(req, res){
   console.log(req.body);
 
   if(!req.body.username || !req.body.password){
-    res.status(401).json({message: "please provide username and password"});
+    res.status(400).json({message: "please provide username and password"});
     return;
   }
   var newUser = req.body
