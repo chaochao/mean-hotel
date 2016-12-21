@@ -9,14 +9,14 @@ module.exports.login = function(req, res){
   console.log(req.body);
 
   if(!req.body.username || !req.body.password){
-    res.status(401).json({message: "please provide username and password"});
+    res.status(400).json({message: "please provide username and password"});
     return;
   }
   UserModel.findOne({
     username: req.body.username
   }).exec(function(err, user){
     if(err){
-      res.status(400).json(err);
+      res.status(500).json(err);
     }else {
       if(user && bcrypt.compareSync(req.body.password, user.password)){
         //create token and send it to fromt
